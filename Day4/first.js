@@ -5,7 +5,7 @@ const server = http.createServer((req,res)=>{
     
     //ab routing try krte h basics
     //jo bhi domain or port ke aage ka link hota h wo req hoti h 
-    if(req.url==="/")
+    if(req.url==="/")//node parser btata h ki url kya h uske liye 
     res.end("hello coder army");
     else if(req.url==="/contacts")
         res.end("these are my contacts");
