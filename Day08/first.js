@@ -7,6 +7,8 @@ const app = express();
 
 //In Express.js, middleware is a function that executes during the request-response lifecycle of an HTTP request. It sits "in the middle" between the raw incoming request from the client and the final route handler or response sent back to the client
 
+// app.use("route",RH,[RH,RH,RH],RH) RH = ROUTEHEADER
+
 app.use("/user",(req,res) =>{ //this is our routing path and this is out function
     console.log("i am first");
     next();
