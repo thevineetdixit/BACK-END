@@ -4,6 +4,7 @@ in this lecture we will elarn about middleware and server handling and all
  authenticate = check krna ki real h ya fake
  authorization = tells you what power do you have,authorized have some powers or limited powers
 
+
 | Code    | Meaning               | When you use it                                         |
 | ------- | --------------------- | ------------------------------------------------------- |
 | **200** | OK                    | Request succeeded                                       |

@@ -3,6 +3,7 @@ const app = express();
 //dummy server uses and creation 
 // CRUD = create read update delete
 
+app.use(express.json());
 const FoodMenu = [
     {id:1,food: "chowmein",category : "veg" , price : 100},
     {id:2,food: "vada pav",category : "veg" , price : 200},
@@ -26,11 +27,89 @@ const add_to_cart = []//user ka jo bhi food add hoga wo idhar show hoga
 
 
 app.get("/food",(req,res)=>{
-    res.send(FoodMenu);
+    res.status(200).send(FoodMenu);
 })
 
-app.post("admin",(req,res)=>{
-    
+app.post("/admin",(req,res)=>{
+    const token = "ABCDEF";
+    const  Access = token === "ABCDEF" ? 1:0;
+
+    //agr valid hoga to push kr skta h 
+    if(Access)
+    {
+        FoodMenu.push(req.body);
+        res.status(201).send("food item added successfully");
+    }
+    else
+        res.status(202).send("items cant be adde");
+})
+
+
+app.patch("/admin/:id", (req, res) => {
+
+    // Authorization
+    const token = "ABCDEF";
+    const Access = token === "ABCDEF" ? 1 : 0;
+
+    if (Access) {
+
+        const id = parseInt(req.params.id);
+
+        const food_idx = FoodMenu.findIndex(item => item.id === id);
+
+        if (food_idx === -1) {
+            return res.status(404).send("Item not found");
+        }
+
+        // JSON data coming from Postman/frontend
+        const { food, category, price } = req.body;
+
+        // Update item
+        FoodMenu[food_idx] = {
+            ...FoodMenu[food_idx],
+            food: food,
+            category: category,
+            price: price
+        };
+
+//         FoodMenu[food_idx] = {
+//              ...FoodMenu[food_idx],
+//              ...req.body
+//              };                       //you can write it as this too but its pro level
+
+        res.send("Item successfully updated");
+    }
+    else {
+        res.status(403).send("You don't have access");
+    }
+});
+
+
+app.delete("/admin:id",(req,res)=>{
+    //jab authorize krenge uske baad hi delete kr payega na 
+    const token = "ABCDEF";
+    const  Access = token === "ABCDEF" ? 1:0;
+
+    //agr valid hoga to push kr skta h 
+    if(Access)
+    {
+        const id = parseInt(req.params.id);//dhyaan rkho ki ye parameter  h to aise acces krenge
+        const food_idx = FoodMenu.findIndex(item => item.id === id);     
+
+        if(index == -1)
+        {
+            res.send("item not found");
+        }
+        else 
+        {
+            FoodMenu.splice(index,1);
+            res.send(" item Succesfully Deleted");
+        }
+
+    }
+    else
+        res.status(202).send("you dont have any access");
+
 })
 
 
