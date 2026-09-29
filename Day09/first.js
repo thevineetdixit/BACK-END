@@ -25,34 +25,28 @@ const FoodMenu = [
 
 const add_to_cart = []//user ka jo bhi food add hoga wo idhar show hoga 
 
+//here you can add authentication as middleware since evry method has authentication separetely
+
+//since app.use can understand every type of request hence we use .use 
+app.use("/admin", (req,res,next)=>{
+    const token = "ABCDEF";
+    const  Access = token === "ABCDEF" ? 1:0;
+
+    if(!Access)
+        response.status(403).send("No Permission");
+
+    next();
+})
+
 
 app.get("/food",(req,res)=>{
     res.status(200).send(FoodMenu);
 })
-
 app.post("/admin",(req,res)=>{
-    const token = "ABCDEF";
-    const  Access = token === "ABCDEF" ? 1:0;
-
-    //agr valid hoga to push kr skta h 
-    if(Access)
-    {
-        FoodMenu.push(req.body);
-        res.status(201).send("food item added successfully");
-    }
-    else
-        res.status(202).send("items cant be adde");
+    FoodMenu.push(req.body);
+    res.status(201).send("food item added successfully");
 })
-
-
 app.patch("/admin/:id", (req, res) => {
-
-    // Authorization
-    const token = "ABCDEF";
-    const Access = token === "ABCDEF" ? 1 : 0;
-
-    if (Access) {
-
         const id = parseInt(req.params.id);
 
         const food_idx = FoodMenu.findIndex(item => item.id === id);
@@ -78,21 +72,8 @@ app.patch("/admin/:id", (req, res) => {
 //              };                       //you can write it as this too but its pro level
 
         res.send("Item successfully updated");
-    }
-    else {
-        res.status(403).send("You don't have access");
-    }
 });
-
-
 app.delete("/admin:id",(req,res)=>{
-    //jab authorize krenge uske baad hi delete kr payega na 
-    const token = "ABCDEF";
-    const  Access = token === "ABCDEF" ? 1:0;
-
-    //agr valid hoga to push kr skta h 
-    if(Access)
-    {
         const id = parseInt(req.params.id);//dhyaan rkho ki ye parameter  h to aise acces krenge
         const food_idx = FoodMenu.findIndex(item => item.id === id);     
 
@@ -105,11 +86,6 @@ app.delete("/admin:id",(req,res)=>{
             FoodMenu.splice(index,1);
             res.send(" item Succesfully Deleted");
         }
-
-    }
-    else
-        res.status(202).send("you dont have any access");
-
 })
 
 
