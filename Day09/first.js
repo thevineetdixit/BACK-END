@@ -97,7 +97,7 @@ app.use("/user", Auth);
 
 
 // ADD FOOD TO CART
-app.post("/user/cart/:id", (req, res) => {
+app.post("/user:id", (req, res) => {
 
     const id = parseInt(req.params.id);
 
@@ -119,7 +119,7 @@ app.post("/user/cart/:id", (req, res) => {
 
 
 // SHOW CART
-app.get("/user/cart", (req, res) => {
+app.get("/user", (req, res) => {
 
     res.status(200).send(add_to_cart);
 
@@ -127,7 +127,7 @@ app.get("/user/cart", (req, res) => {
 
 
 // DELETE FOOD FROM CART
-app.delete("/user/cart/:id", (req, res) => {
+app.delete("/user:id", (req, res) => {
 
     const id = parseInt(req.params.id);
 
