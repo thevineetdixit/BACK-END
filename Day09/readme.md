@@ -19,3 +19,11 @@ in this lecture we will elarn about middleware and server handling and all
 | **500** | Internal Server Error | Something went wrong on backend                         |
 | **502** | Bad Gateway           | Your server got an invalid response from another server |
 | **503** | Service Unavailable   | Server/service temporarily unavailable                  |
+
+ 
+//error handling : what if error occurs or we cant reach down to the server,then we have to explicitely throw an error,to show output otherwise how will we know that its an error
+//for this we have try catch block in javascript which handles error and defines functionality of diff kinds of errors 
+
+
+the diff bw json.parse and express.parseint is that json.parse need whole data at once adn then parse it
+while on the other hand we have express.parseint which can handle dynamic continuosly data parsing one by one 
