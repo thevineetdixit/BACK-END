@@ -7,10 +7,7 @@ const { MongoClient } = require('mongodb');
 
 // @ === %40
 // @ == hexdecimal: 0x40
-const url = "mongodb+srv://coderArmy9:Hunter%409Bhai@codingadda.4ugikcf.mongodb.net/";
-const client = new MongoClient(url);
-
-// Database Name
+c// Database Name
 const dbName = 'CoderArmy';
 
 async function main() {
