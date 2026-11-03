@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 async function main() {
    
-  await mongoose.connect("mongodb+srv://vineetdixit727_db_user:%40Mongo123@cluster0.jtehglz.mongodb.net/bookstore");
+  await mongoose.connect("");
 
   // code likhna shuru kar do
 
