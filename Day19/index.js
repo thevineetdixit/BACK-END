@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const main = require("./database");
 const User = require("./Models/users")
+const validator = require("./utils/ValidateUser")
 require('dotenv').config();
 
 app.use(express.json());
@@ -10,6 +11,13 @@ app.use(express.json());
 
 app.post("/register", async (req,res) => {
     try {
+
+            const mandatoryField = ["firstName","emailId","age"];
+            const IsAllowed = mandatoryField.every((k) => Object.keys(req.body).includes(k));
+
+            if(!IsAllowed)
+                throw new Error("Fields are missing");
+
             await User.create(req.body);
             res.send("User Registration successful");
     }
