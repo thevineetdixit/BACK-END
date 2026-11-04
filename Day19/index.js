@@ -12,11 +12,7 @@ app.use(express.json());
 app.post("/register", async (req,res) => {
     try {
 
-            const mandatoryField = ["firstName","emailId","age"];
-            const IsAllowed = mandatoryField.every((k) => Object.keys(req.body).includes(k));
-
-            if(!IsAllowed)
-                throw new Error("Fields are missing");
+            validator(req.body);
 
             await User.create(req.body);
             res.send("User Registration successful");
