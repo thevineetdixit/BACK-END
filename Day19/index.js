@@ -2,25 +2,59 @@ const express = require("express");
 const app = express();
 const main = require("./database");
 const User = require("./Models/users")
-const validator = require("./utils/ValidateUser")
+const validate = require("./utils/ValidateUser")
+const bcrypt = require('bcrypt')
 require('dotenv').config();
 
 app.use(express.json());
 
 // CRUD: Create Read Update Delete
 
-app.post("/register", async (req,res) => {
+app.post("/login", async (req, res) => {
     try {
+        const person = await User.findById(
+            req.body._id
+        );
 
-            validator(req.body);
+        if (!person)
+            throw new Error("User not found");
 
-            await User.create(req.body);
-            res.send("User Registration successful");
+        const isPasswordValid = await bcrypt.compare(
+            req.body.password,  // Plain password from Postman
+            person.password     // Hashed password from MongoDB
+        );
+
+        if (!isPasswordValid)
+            throw new Error("Wrong password");
+
+        res.send("Login successful");
     }
     catch (err) {
-            res.send("Error" + err.message);
+        res.status(401).send("Error in login: " + err.message);
     }
-})
+});
+
+
+app.post("/register", async (req, res) => {
+    try {
+        // 1. Validate incoming data
+        validate(req.body);
+
+        // 2. Hash the password
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+        // 3. Store hashed password in MongoDB
+        const user = await User.create({
+            ...req.body,
+            password: hashedPassword
+        });
+
+        res.send("User Registration successful");
+    }
+    catch (err) {
+        res.status(400).send("Error: " + err.message);
+    }
+});
 
 app.get("/info" , async (req,res) => {
 

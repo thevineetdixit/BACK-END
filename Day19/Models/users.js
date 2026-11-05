@@ -1,15 +1,38 @@
 const mongoose = require('mongoose');
-const { type } = require('node:os');
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-    name:String,
-    age: Number,
-    city:String,
-    gender: String
-})
+    firstName: {
+        type: String,
+        required: true,
+        minlength: 3,
+        maxlength: 20
+    },
 
-const User = mongoose.model("user",userSchema);//iska simple mtlb humne user naam ka colln banaya aur userchema uska schema hoga 
+    lastName: {
+        type: String
+    },
 
+    age: {
+        type: Number,
+        required: true
+    },
+
+    emailId: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true
+    },
+
+    password: {
+        type: String,
+        required: true
+    }
+
+});
+
+const User = mongoose.model("user", userSchema);
 
 module.exports = User;
